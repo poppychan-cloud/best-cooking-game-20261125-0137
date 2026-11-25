@@ -238,7 +238,7 @@ function drawStations(ctx, world, now) {
     ctx.strokeStyle = PALETTE.gold;
     ctx.lineWidth = 4;
     ctx.beginPath(); ctx.arc(PLATE_POS.x, PLATE_POS.y, PLATE_POS.r + 8 + Math.sin(now / 200) * 2, 0, Math.PI * 2); ctx.stroke();
-    text(ctx, '空格上菜！', PLATE_POS.x, PLATE_POS.y - PLATE_POS.r - 48, 18, PALETTE.gold, 'center');
+    text(ctx, '空格上菜！', PLATE_POS.x, PLATE_POS.y - PLATE_POS.r - 58, 18, PALETTE.gold, 'center');
   }
   ctx.fillStyle = '#ffffff';
   ctx.beginPath(); ctx.arc(PLATE_POS.x, PLATE_POS.y, PLATE_POS.r, 0, Math.PI * 2); ctx.fill();

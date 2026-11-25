@@ -51,10 +51,10 @@ export function recipeById(id) { return RECIPES.find((r) => r.id === id); }
 
 // Floor plan (logical pixels). Every station rect is a solid counter the chef walks around.
 export const STATIONS = {
-  board: { x: 36, y: 130, w: 180, h: 150, label: '砧板 · 切菜' },
-  stove: { x: 480, y: 130, w: 340, h: 130, label: '灶台 · 烹煮' },
-  plate: { x: 1000, y: 130, w: 244, h: 170, label: '摆盘 · 上菜' },
-  trash: { x: 1060, y: 560, w: 184, h: 130, label: '垃圾桶' },
+  board: { x: 36, y: 120, w: 180, h: 180, label: '砧板 · 切菜' },
+  stove: { x: 480, y: 120, w: 340, h: 160, label: '灶台 · 烹煮' },
+  plate: { x: 1000, y: 120, w: 244, h: 180, label: '摆盘 · 上菜' },
+  trash: { x: 996, y: 450, w: 248, h: 150, label: '垃圾桶' },
 };
 /** The two pots on the stove (centres, logical pixels). */
 export const POTS = [
@@ -63,14 +63,14 @@ export const POTS = [
 ];
 /** The four ingredient bins along the bottom counter. */
 export const BINS = [
-  { id: 'tomato', x: 60, y: 560, w: 180, h: 130 },
-  { id: 'lettuce', x: 300, y: 560, w: 180, h: 130 },
-  { id: 'beef', x: 540, y: 560, w: 180, h: 130 },
-  { id: 'bread', x: 780, y: 560, w: 180, h: 130 },
+  { id: 'tomato', x: 36, y: 450, w: 240, h: 150 },
+  { id: 'lettuce', x: 276, y: 450, w: 240, h: 150 },
+  { id: 'beef', x: 516, y: 450, w: 240, h: 150 },
+  { id: 'bread', x: 756, y: 450, w: 240, h: 150 },
 ];
 export const PLATE_POS = { x: 1122, y: 215, r: 52 };
-export const BOARD_POS = { x: 126, y: 205, r: 46 };
-export const CHEF_START = { x: 640, y: 430 };
+export const BOARD_POS = { x: 126, y: 195, r: 46 };
+export const CHEF_START = { x: 640, y: 385 };
 export const INTERACT_RANGE = 84;
 export const CHOP_SECONDS = 1.2;
 export const COOK_SECONDS = 4;
