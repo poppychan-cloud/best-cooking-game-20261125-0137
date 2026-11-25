@@ -72,6 +72,15 @@ export const PLATE_POS = { x: 1122, y: 215, r: 52 };
 export const BOARD_POS = { x: 126, y: 195, r: 46 };
 export const CHEF_START = { x: 640, y: 385 };
 export const INTERACT_RANGE = 84;
+/**
+ * The plate counter is 244 wide with the plate at its centre, so on a straight
+ * horizontal approach the chef stops 140 px from the plate centre — 88 px from
+ * the rim, 4 px outside INTERACT_RANGE. Diagonal approaches stop a little
+ * further out still (step granularity plus the stuck detector cutting the slow
+ * final creep short), so the plate's interaction reach gets a 12 px allowance
+ * and a click on the plate works from every side.
+ */
+export const PLATE_REACH_BONUS = 12;
 export const CHOP_SECONDS = 1.2;
 export const COOK_SECONDS = 4;
 export const BURN_SECONDS = 8;

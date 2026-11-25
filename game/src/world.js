@@ -3,7 +3,7 @@
 // serve or trash, decided by what the chef is carrying and standing next to.
 import {
   FIELD, GAME_SECONDS, STATIONS, BINS, POTS, PLATE_POS, BOARD_POS,
-  INTERACT_RANGE, chopResult, recipeById,
+  INTERACT_RANGE, PLATE_REACH_BONUS, chopResult, recipeById,
 } from './config.js';
 import { createRandom } from './random.js';
 import { createChef, updateChef } from './chef.js';
@@ -62,7 +62,7 @@ export function nearestUsable(world) {
     const d = Math.hypot(x - POTS[i].x, y - POTS[i].y) - POTS[i].r;
     if (d < bestD) { bestD = d; best = { kind: 'pot', index: i }; }
   }
-  const plateD = Math.hypot(x - PLATE_POS.x, y - PLATE_POS.y) - PLATE_POS.r;
+  const plateD = Math.hypot(x - PLATE_POS.x, y - PLATE_POS.y) - PLATE_POS.r - PLATE_REACH_BONUS;
   if (plateD < bestD) { bestD = plateD; best = { kind: 'plate' }; }
   const trashD = distToRect(x, y, STATIONS.trash);
   if (trashD < bestD) { bestD = trashD; best = { kind: 'trash' }; }
@@ -103,7 +103,7 @@ function stationDistance(world, station) {
     const pot = POTS[station.index];
     return Math.hypot(x - pot.x, y - pot.y) - pot.r;
   }
-  if (station.kind === 'plate') return Math.hypot(x - PLATE_POS.x, y - PLATE_POS.y) - PLATE_POS.r;
+  if (station.kind === 'plate') return Math.hypot(x - PLATE_POS.x, y - PLATE_POS.y) - PLATE_POS.r - PLATE_REACH_BONUS;
   if (station.kind === 'trash') return distToRect(x, y, STATIONS.trash);
   return Infinity;
 }

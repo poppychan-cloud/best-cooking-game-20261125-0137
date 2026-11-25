@@ -219,6 +219,19 @@ function drawStations(ctx, world, now) {
     ctx.beginPath(); ctx.arc(pot.x, pot.y, pot.r, 0, Math.PI * 2); ctx.fill();
     ctx.strokeStyle = '#8a8f9a'; ctx.lineWidth = 3; ctx.stroke();
     if (p.item) drawIngredient(ctx, p.item, pot.x, pot.y, 20);
+    if (p.state === 'cooking') {
+      // Steam over a cooking pot: three puffs rising and fading, so the frame
+      // reads "still cooking" at a glance instead of a flat grey disc.
+      for (let i = 0; i < 3; i += 1) {
+        const frac = ((now / 900) + i / 3) % 1;
+        ctx.globalAlpha = 0.5 * (1 - frac);
+        ctx.fillStyle = '#c8ccd4';
+        ctx.beginPath();
+        ctx.arc(pot.x - 10 + i * 10, pot.y - pot.r - 8 - frac * 30, 4 + frac * 3, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+    }
     if (p.state === 'cooking' || p.state === 'done') {
       ctx.strokeStyle = p.state === 'done' ? PALETTE.green : PALETTE.gold;
       ctx.lineWidth = 6;
@@ -280,10 +293,11 @@ function drawHud(ctx, world, now) {
   const low = world.timeLeft <= 30;
   text(ctx, `${mm}:${ss}`, 1180, 42, 56, low ? PALETTE.red : PALETTE.text, 'center');
   text(ctx, '剩余时间', 1180, 76, 15, PALETTE.muted, 'center');
-  // Flash message under the board.
+  // Flash message on the dark wall strip between the tickets and the score:
+  // gold on dark reads at a glance, and it can never touch a counter top.
   if (world.flash && world.flashT > 0) {
     ctx.globalAlpha = Math.min(1, world.flashT);
-    text(ctx, world.flash, FIELD.width / 2, 112, 26, PALETTE.gold, 'center');
+    text(ctx, world.flash, 690, 46, 24, PALETTE.gold, 'center');
     ctx.globalAlpha = 1;
   }
   text(ctx, 'WASD / 方向键移动 · 空格互动 · 点击走位', FIELD.width / 2, 708, 14, PALETTE.muted, 'center');
