@@ -1,12 +1,14 @@
-// A working best-game-01 entry (Node 22, standard library only): the game is this directory's
-// game/ folder, plain static files a desktop browser loads offline (game/index.html and its ES
-// modules, no library and no network request), and the program hands it in. It copies game/ and
-// screenshots/ from beside this file to /output and writes /output/dossier.json, the summary the
-// judge reads, with the vendored make.fun library. A starting point, not a winner: Block Dodger, a
-// plain 2D canvas game where a paddle dodges falling blocks and catches coins, with a title screen,
-// score, lives and levels, game over and restart, flat colours and no sound. Build your own game
-// (any genre, any library you vendor under game/, or none), put your 3 or 4 PNG or JPEG screenshots
-// in screenshots/ (the first by name is the cover) and run it.
+// Midnight Diner: The Pass — a hand-written Canvas 2D cooking game (Node 22, standard library
+// only). The game is this directory's game/ folder: plain static files a desktop browser loads
+// offline (game/index.html and its ES modules, no library and no network request), and this
+// program hands it in. It copies game/ and screenshots/ from beside this file to /output and
+// writes /output/dossier.json, the summary the judge reads, with the vendored make.fun library.
+// Play: WASD or arrow keys move the chef, Space interacts, clicking a station walks over and
+// interacts. Three stations (chopping board, stove, plating pass), three recipes sharing them,
+// a 3-minute round with rising difficulty; the stove keeps cooking while the chef is away and
+// can burn. Screenshots (the first by name is the cover): 1-cover shows the six-element cover
+// (kitchen, order board, counter ingredients, a dish being assembled, timer, a plate ready to
+// serve), 2-chop the knife work, 3-serve the serve moment, 4-rush the timeout/burn tradeoff.
 //
 // Serve it locally with `node serve.ts`, then open http://localhost:8080.
 // Outside the grader's container, MAKEFUN_OUTPUT_DIR stands in for /output:
