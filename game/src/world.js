@@ -81,10 +81,13 @@ export function stationAtPoint(point) {
     point.y >= rect.y - pad && point.y <= rect.y + rect.h + pad;
   for (const bin of BINS) if (inRect(bin, 24)) return { kind: 'bin', id: bin.id };
   if (inRect(STATIONS.board, 24)) return { kind: 'board' };
-  if (inRect(STATIONS.stove, 24)) return { kind: 'stove' };
+  // The pots sit on the stove, entirely inside its padded rect: they must be
+  // checked first, or a click on a pot always resolves to the stove (which has
+  // no interaction) and the pot can never be clicked.
   for (let i = 0; i < POTS.length; i += 1) {
     if (Math.hypot(point.x - POTS[i].x, point.y - POTS[i].y) < POTS[i].r + 24) return { kind: 'pot', index: i };
   }
+  if (inRect(STATIONS.stove, 24)) return { kind: 'stove' };
   if (Math.hypot(point.x - PLATE_POS.x, point.y - PLATE_POS.y) < PLATE_POS.r + 24) return { kind: 'plate' };
   if (inRect(STATIONS.trash, 24)) return { kind: 'trash' };
   return null;
