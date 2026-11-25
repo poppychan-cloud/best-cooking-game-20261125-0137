@@ -170,6 +170,20 @@ function drawChef(ctx, chef, now) {
   }
 }
 
+/** A red paper lantern hanging from the wall top. */
+function drawLantern(ctx, x) {
+  ctx.strokeStyle = '#8a6d3f'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 12); ctx.stroke();
+  ctx.fillStyle = '#c0392b';
+  ctx.beginPath(); ctx.ellipse(x, 30, 16, 20, 0, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = '#e74c3c'; ctx.lineWidth = 2; ctx.stroke();
+  ctx.fillStyle = PALETTE.gold;
+  ctx.fillRect(x - 8, 26, 16, 3);
+  ctx.fillRect(x - 8, 34, 16, 3);
+  ctx.fillStyle = '#f2c94c';
+  ctx.fillRect(x - 2, 50, 4, 8);
+}
+
 function drawFloor(ctx) {
   ctx.fillStyle = PALETTE.floor;
   ctx.fillRect(0, 92, FIELD.width, FIELD.height - 92);
@@ -178,10 +192,30 @@ function drawFloor(ctx) {
   for (let y = 138; y < FIELD.height; y += 46) {
     ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(FIELD.width, y); ctx.stroke();
   }
+  // Runner rug across the chef's walkway: the middle band was bare floor, so the
+  // frames read empty between the station row and the bins. The rug sits clear of
+  // every counter (stations end y=300, bins start y=450) and is floor decor only —
+  // no collision, the chef walks on it as a rug should be walked on.
+  ctx.fillStyle = '#5d3a24';
+  rr(ctx, 300, 340, 680, 100, 16); ctx.fill();
+  ctx.strokeStyle = 'rgba(242,201,76,0.45)'; ctx.lineWidth = 3;
+  rr(ctx, 310, 348, 660, 84, 12); ctx.stroke();
+  // Centre motif so the rug reads as woven cloth, not an empty tray: three
+  // small gold diamonds on the middle line.
+  ctx.fillStyle = 'rgba(242,201,76,0.5)';
+  for (const dx of [420, 640, 860]) {
+    ctx.beginPath();
+    ctx.moveTo(dx, 378); ctx.lineTo(dx + 10, 390); ctx.lineTo(dx, 402); ctx.lineTo(dx - 10, 390);
+    ctx.closePath(); ctx.fill();
+  }
   ctx.fillStyle = PALETTE.wall;
   ctx.fillRect(0, 0, FIELD.width, 92);
   ctx.fillStyle = '#4a3220';
   ctx.fillRect(0, 88, FIELD.width, 4);
+  // Two lanterns on the wall, clear of the tickets (end x=670), the flash text
+  // (ends x~810) and the score (starts x=940); the HUD text draws over them.
+  drawLantern(ctx, 860);
+  drawLantern(ctx, 920);
 }
 
 function drawStations(ctx, world, now) {
@@ -213,6 +247,11 @@ function drawStations(ctx, world, now) {
   drawCounter(ctx, STATIONS.stove, STATIONS.stove.label);
   POTS.forEach((pot, i) => {
     const p = st.pots[i];
+    if (p.state === 'cooking') {
+      // Flame glow spilling from under a live pot: the stove read flat without it.
+      ctx.fillStyle = 'rgba(230,126,34,0.35)';
+      ctx.beginPath(); ctx.ellipse(pot.x, pot.y + pot.r + 4, pot.r + 16, 10, 0, 0, Math.PI * 2); ctx.fill();
+    }
     ctx.fillStyle = '#23232b';
     ctx.beginPath(); ctx.arc(pot.x, pot.y, pot.r + 6, 0, Math.PI * 2); ctx.fill();
     ctx.fillStyle = PALETTE.pot;
@@ -262,10 +301,16 @@ function drawStations(ctx, world, now) {
     const angle = -Math.PI / 2 + (i - (st.plate.items.length - 1) / 2) * 0.9;
     drawIngredient(ctx, item, PLATE_POS.x + Math.cos(angle) * 20, PLATE_POS.y + Math.sin(angle) * 16, 13);
   });
-  // Trash.
+  // Trash: a real bin with a rim and slats, not the black hole the old flat
+  // rectangle read as.
   drawCounter(ctx, STATIONS.trash, STATIONS.trash.label);
-  ctx.fillStyle = '#2b2b2b';
-  rr(ctx, STATIONS.trash.x + 52, STATIONS.trash.y + 34, 80, 62, 8); ctx.fill();
+  ctx.fillStyle = '#3d3d46';
+  rr(ctx, STATIONS.trash.x + 52, STATIONS.trash.y + 36, 80, 60, 8); ctx.fill();
+  ctx.fillStyle = '#565660';
+  rr(ctx, STATIONS.trash.x + 46, STATIONS.trash.y + 30, 92, 10, 5); ctx.fill();
+  ctx.strokeStyle = '#23232b'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(STATIONS.trash.x + 78, STATIONS.trash.y + 42); ctx.lineTo(STATIONS.trash.x + 78, STATIONS.trash.y + 90); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(STATIONS.trash.x + 106, STATIONS.trash.y + 42); ctx.lineTo(STATIONS.trash.x + 106, STATIONS.trash.y + 90); ctx.stroke();
   // Ingredient bins along the bottom.
   for (const bin of BINS) {
     drawCounter(ctx, bin, itemName(bin.id));

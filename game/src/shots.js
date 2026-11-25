@@ -14,6 +14,10 @@ function basePlay(world, timeLeft, score) {
   world.timeLeft = timeLeft;
   world.elapsed = 180 - timeLeft;
   world.score = score;
+  // The staged frame is a session in progress, so the best on the HUD is the
+  // running score — headless runs load best 0 from an empty localStorage, which
+  // read as "nobody has ever played this".
+  world.best = score;
   return world;
 }
 

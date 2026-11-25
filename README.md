@@ -37,7 +37,9 @@ costs 20. Best score is kept in the browser.
 
 `shots.json` lists the four deterministic scenes (`?shot=` + `seed=1`): the cover
 frame holds the whole game at once — kitchen, order board, counter ingredients,
-a dish mid-assembly, the round timer and a plate ready to serve.
+a dish mid-assembly, the round timer and a plate ready to serve. The playfield
+carries its late-night diner dress: paper lanterns on the wall, a runner rug
+across the walkway, flame glow under live pots and steam over cooking pots.
 
 ## Structure (one job per file)
 
